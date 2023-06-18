@@ -34,6 +34,13 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return Either.left(SignInFailure.unauthorized);
     }
 
+    await _secureStorage.write(key: _key, value: '123');
+
     return Either.right(User());
+  }
+
+  @override
+  Future<void> signOut() async {
+    return _secureStorage.delete(key: _key);
   }
 }
