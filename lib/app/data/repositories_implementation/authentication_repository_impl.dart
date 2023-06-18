@@ -1,5 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../../domain/either.dart';
+import '../../domain/enums.dart';
 import '../../domain/models/user.dart';
 import '../../domain/repositories/authentication_repository.dart';
 
@@ -18,4 +20,20 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
   @override
   Future<User?> getUserData() => Future.value(User());
+
+  @override
+  Future<Either<SignInFailure, User>> signIn(
+    String username,
+    String password,
+  ) async {
+    if (username != 'test') {
+      return Either.left(SignInFailure.notFound);
+    }
+
+    if (password != '123456') {
+      return Either.left(SignInFailure.unauthorized);
+    }
+
+    return Either.right(User());
+  }
 }
